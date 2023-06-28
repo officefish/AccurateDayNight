@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-AccurateDayNight-0004.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\Cookbook\MyProject\Intermediate\Build\Win64\MyProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"D:\Cookbook\MyProject\Plugins\AccurateDayNight\Intermediate\Build\Win64\UE4Editor\Development\AccurateDayNight\Module.AccurateDayNight.cpp.obj"
+"D:\Cookbook\MyProject\Plugins\AccurateDayNight\Intermediate\Build\Win64\UE4Editor\Development\AccurateDayNight\Module.AccurateDayNight.gen.cpp.obj"
+"D:\Cookbook\MyProject\Plugins\AccurateDayNight\Intermediate\Build\Win64\UE4Editor\Development\AccurateDayNight\Default.rc2.res"
+/OUT:"D:\Cookbook\MyProject\Plugins\AccurateDayNight\Intermediate\Build\Win64\UE4Editor\Development\AccurateDayNight\UE4Editor-AccurateDayNight-0004.lib"

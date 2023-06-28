@@ -1,0 +1,2 @@
+D:\Cookbook\MyProject\Plugins\AccurateDayNight\Intermediate\Build\Win64\UE4Editor\Development\AccurateDayNight\Definitions.AccurateDayNight.h
+D:\Cookbook\MyProject\Plugins\AccurateDayNight\Source\AccurateDayNight\Public\AccurateDayNight.h

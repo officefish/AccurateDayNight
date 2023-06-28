@@ -1,0 +1,21 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.AccurateDayNight.cpp.obj": [
+			"AccurateDayNight.cpp.obj",
+			"AccurateDayNightGameState.cpp.obj",
+			"CompassComponent.cpp.obj",
+			"DayNightCycleRules.cpp.obj",
+			"MoonComponent.cpp.obj",
+			"SkyActor.cpp.obj"
+		],
+		"Module.AccurateDayNight.gen.cpp.obj": [
+			"AccurateDayNight.init.gen.cpp.obj",
+			"AccurateDayNightGameState.gen.cpp.obj",
+			"CompassComponent.gen.cpp.obj",
+			"DayNightCycleRules.gen.cpp.obj",
+			"MoonComponent.gen.cpp.obj",
+			"SkyActor.gen.cpp.obj"
+		]
+	}
+}
