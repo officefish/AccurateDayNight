@@ -374,6 +374,10 @@ static struct FScriptStruct_AccurateDayNight_StaticRegisterNativesFMoonRules
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MoonEnable_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MoonEnable;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MaxStarsBrightness_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MaxStarsBrightness;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const UE4CodeGen_Private::FStructParams ReturnStructParams;
 	};
@@ -426,12 +430,20 @@ static struct FScriptStruct_AccurateDayNight_StaticRegisterNativesFMoonRules
 	};
 #endif
 	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonEnable = { "MoonEnable", nullptr, (EPropertyFlags)0x0010000000000004, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(FMoonRules, MoonEnable), METADATA_PARAMS(Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonEnable_MetaData, UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonEnable_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MaxStarsBrightness_MetaData[] = {
+		{ "Category", "MoonRules" },
+		{ "ModuleRelativePath", "Public/DayNightCycleRules.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MaxStarsBrightness = { "MaxStarsBrightness", nullptr, (EPropertyFlags)0x0010000000000004, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(FMoonRules, MaxStarsBrightness), METADATA_PARAMS(Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MaxStarsBrightness_MetaData, UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MaxStarsBrightness_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FMoonRules_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_Moon,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonLightStrength,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonDistance,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonSize,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MoonEnable,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FMoonRules_Statics::NewProp_MaxStarsBrightness,
 	};
 	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FMoonRules_Statics::ReturnStructParams = {
 		(UObject* (*)())Z_Construct_UPackage__Script_AccurateDayNight,
@@ -461,7 +473,7 @@ static struct FScriptStruct_AccurateDayNight_StaticRegisterNativesFMoonRules
 		}
 		return ReturnStruct;
 	}
-	uint32 Get_Z_Construct_UScriptStruct_FMoonRules_Hash() { return 2389728576U; }
+	uint32 Get_Z_Construct_UScriptStruct_FMoonRules_Hash() { return 1634964117U; }
 class UScriptStruct* FDayLightSavingsTime::StaticStruct()
 {
 	static class UScriptStruct* Singleton = NULL;

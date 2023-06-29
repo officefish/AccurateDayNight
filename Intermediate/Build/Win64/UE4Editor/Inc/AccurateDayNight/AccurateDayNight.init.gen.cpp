@@ -14,6 +14,7 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNight_init() {}
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_DayNightCicleDelegate__DelegateSignature();
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_DayNightScheduleDelegate__DelegateSignature();
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_GameSpeedDelegate__DelegateSignature();
+	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature();
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_NewDayDelegate__DelegateSignature();
 	UPackage* Z_Construct_UPackage__Script_AccurateDayNight()
 	{
@@ -24,6 +25,7 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNight_init() {}
 				(UObject* (*)())Z_Construct_UDelegateFunction_AccurateDayNight_DayNightCicleDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_AccurateDayNight_DayNightScheduleDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_AccurateDayNight_GameSpeedDelegate__DelegateSignature,
+				(UObject* (*)())Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_AccurateDayNight_NewDayDelegate__DelegateSignature,
 			};
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
@@ -31,8 +33,8 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNight_init() {}
 				SingletonFuncArray,
 				UE_ARRAY_COUNT(SingletonFuncArray),
 				PKG_CompiledIn | 0x00000000,
-				0x6A4F739E,
-				0x7581821E,
+				0x3C81E785,
+				0x686D636C,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);

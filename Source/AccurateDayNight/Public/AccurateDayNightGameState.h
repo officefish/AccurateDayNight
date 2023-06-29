@@ -48,6 +48,8 @@ enum class EEDayNightSchedule : uint8
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDayNightCicleDelegate, TEnumAsByte<EEDayNightCicle>, EDayNightCycle);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDayNightScheduleDelegate, TEnumAsByte<EEDayNightSchedule>, EDayNightSchedule);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameSpeedDelegate, TEnumAsByte<EEGameSpeed>, EGameSpeed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameStateTickDelegate, FDateTime, TickDateTime);
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNewDayDelegate);
 
 /**
@@ -113,6 +115,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "AccurateDayNight")
 		FNewDayDelegate OnNewDayDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = "AccurateDayNight")
+		FGameStateTickDelegate OnGameStateTickDelegate;
+
 	// DayNightCicle
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "AccurateDayNight")
 		FTimespan SunsetTime;
@@ -151,6 +156,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AccurateDayNight")
 		bool bWithX500Time;
 
+	/* Day/Night Transition Time */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AccurateDayNight")
+		FTimespan DayNightTransitionTime;
+
 private:
 
 	float GetTimeMuliplier();
@@ -171,8 +180,7 @@ private:
 	float GameTimeMultiplierX50;
 	float GameTimeMultiplierX500;
 
-	/* Day/Night Transition Time */
-	FTimespan DayNightTransitionTime;
+	
 
 	/* Total time passed after BeginPlay */
 

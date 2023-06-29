@@ -10,7 +10,7 @@
 #include "Components/SkyLightComponent.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "Components/ExponentialHeightFogComponent.h"
+
 #include "Components/SkyAtmosphereComponent.h"
 #include "Components/TimelineComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -25,9 +25,12 @@
 
 #include "TimerManager.h"
 
+#include "AccurateDayNightGameState.h"
+
 #include "SunPosition.h"
 
 #include "SkyActor.generated.h"
+
 
 UCLASS()
 class ACCURATEDAYNIGHT_API ASkyActor : public AActor
@@ -43,6 +46,15 @@ public:
 	/**
 	 Functions
 	*/
+
+	// GameState Listeners
+	UFUNCTION()
+		void OnDayNightCycleChange(TEnumAsByte<EEDayNightCicle> EDayNightCicle);
+
+	UFUNCTION()
+		void OnGameStateTick(FDateTime TickDateTime);
+
+	//
 	UFUNCTION(BlueprintCallable)
 		void Update(FDateTime CurrentDateTime);
 
@@ -70,40 +82,31 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetMoonRules(FMoonRules MoonRulesInput);
 
-	UFUNCTION(BlueprintCallable)
-		void GetHMSFromSolarTime(float SolarTime_loc, int32& Hour, int32& Minute, int32& Second);
-
 	UFUNCTION(BlueprintPure)
 		bool IsDST(FDayLightSavingsTime DSTStruct);
 
 	//DayNight Cycle Change
 
 	UFUNCTION(BlueprintCallable)
-		void DoOnBeforeSunset();
+		void OnBeforeSunset(float Modifier, float InverseModifier);
 
 	UFUNCTION(BlueprintCallable)
-		void DoOnSunset();
+		void OnSunset(float Modifier, float InverseModifier);
 
 	UFUNCTION(BlueprintCallable)
-		void DoOnNight();
+		void OnNight(float Modifier, float InverseModifier);
 
 	UFUNCTION(BlueprintCallable)
-		void DoOnBeforeSunrise();
+		void OnBeforeSunrise(float Modifier, float InverseModifier);
 
 	UFUNCTION(BlueprintCallable)
-		void DoOnSunrise();
+		void OnSunrise(float Modifier, float InverseModifier);
 
 	UFUNCTION(BlueprintCallable)
-		void DoOnDay();
+		void OnDay(float Modifier, float InverseModifier);
 
-protected:
-	// Called when the game starts or when spawned
+public:
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 
 public:
 
@@ -124,10 +127,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category = "Default", OverrideNativeName = "DirectionalLight"))
 		UDirectionalLightComponent* SunDirectionalLight;
 
-	// Exponential Height Fog
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category = "Default", OverrideNativeName = "ExponentialHeightFog"))
-		UExponentialHeightFogComponent* ExponentialHeightFog;
-
+	
 	//Compass 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category = "Default", OverrideNativeName = "CompassComponent"))
 		UCompassComponent* CompassComponent;
@@ -135,6 +135,10 @@ public:
 	//Moon
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category = "Default", OverrideNativeName = "MoonComponent"))
 		UMoonComponent* MoonComponent;
+
+	// Exponential Height Fog
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (Category = "Default", OverrideNativeName = "ExponentialHeightFog"))
+		UExponentialHeightFogComponent* ExponentialHeightFog;
 
 public:
 
@@ -163,15 +167,37 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		bool bIsDay;
 
-protected:
-
-	const float ALBEDO_COLOR = 0.603827;
-
 private:
 
 	void SetupDefaults();
-	void ConstructTimeLines();
 	void ConstructSubObjects();
 	void SetupSubObjects();
+
+	void SmoothUpdate();
+	float GetSmoothModifier() const;
+
+	void SetFogAlpha(float FogAlpha);
+
+	void ShowFog();
+	void HideFog();
+
+
+protected:
+	const float ALBEDO_COLOR = 0.603827;
+	const float MAX_VALUE = 1.0f;
+	const float MIN_VALUE = 0.0f;
+
+private:
+
+	AAccurateDayNightGameState* GameState;
+
+	TEnumAsByte<EEDayNightCicle> ECurrentDayNightCicle;
+
+	//FDateTime TickDateTime;
+	FDateTime AnimationBeginDateTime;
+	float AnimationTotalSeconds;
+
+	float FogDensity;
+	float FogMaxOpacity;
 
 };

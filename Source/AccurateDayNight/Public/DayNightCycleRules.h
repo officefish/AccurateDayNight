@@ -90,6 +90,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		float MoonEnable;
 
+	UPROPERTY(BlueprintReadWrite)
+		float MaxStarsBrightness;
+
 };
 
 

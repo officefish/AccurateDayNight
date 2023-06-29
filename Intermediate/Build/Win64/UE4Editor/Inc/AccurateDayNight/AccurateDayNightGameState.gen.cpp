@@ -15,6 +15,8 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 // Cross Module References
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_NewDayDelegate__DelegateSignature();
 	UPackage* Z_Construct_UPackage__Script_AccurateDayNight();
+	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature();
+	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FDateTime();
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_GameSpeedDelegate__DelegateSignature();
 	ACCURATEDAYNIGHT_API UEnum* Z_Construct_UEnum_AccurateDayNight_EEGameSpeed();
 	ACCURATEDAYNIGHT_API UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_DayNightScheduleDelegate__DelegateSignature();
@@ -25,7 +27,6 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 	ACCURATEDAYNIGHT_API UClass* Z_Construct_UClass_AAccurateDayNightGameState();
 	ENGINE_API UClass* Z_Construct_UClass_AGameStateBase();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FTimespan();
-	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FDateTime();
 // End Cross Module References
 	struct Z_Construct_UDelegateFunction_AccurateDayNight_NewDayDelegate__DelegateSignature_Statics
 	{
@@ -46,6 +47,38 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UDelegateFunction_AccurateDayNight_NewDayDelegate__DelegateSignature_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics
+	{
+		struct _Script_AccurateDayNight_eventGameStateTickDelegate_Parms
+		{
+			FDateTime TickDateTime;
+		};
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_TickDateTime;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::NewProp_TickDateTime = { "TickDateTime", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(_Script_AccurateDayNight_eventGameStateTickDelegate_Parms, TickDateTime), Z_Construct_UScriptStruct_FDateTime, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::NewProp_TickDateTime,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/AccurateDayNightGameState.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::FuncParams = { (UObject*(*)())Z_Construct_UPackage__Script_AccurateDayNight, nullptr, "GameStateTickDelegate__DelegateSignature", nullptr, nullptr, sizeof(_Script_AccurateDayNight_eventGameStateTickDelegate_Parms), Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00130000, 0, 0, METADATA_PARAMS(Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -819,6 +852,10 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnNewDayDelegate;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnGameStateTickDelegate_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnGameStateTickDelegate;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SunsetTime_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_SunsetTime;
@@ -874,6 +911,10 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 #endif
 		static void NewProp_bWithX500Time_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bWithX500Time;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DayNightTransitionTime_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_DayNightTransitionTime;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 		static const FCppClassTypeInfoStatic StaticCppClassTypeInfo;
 		static const UE4CodeGen_Private::FClassParams ClassParams;
@@ -933,6 +974,13 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 	};
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnNewDayDelegate = { "OnNewDayDelegate", nullptr, (EPropertyFlags)0x0010000010080000, UE4CodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AAccurateDayNightGameState, OnNewDayDelegate), Z_Construct_UDelegateFunction_AccurateDayNight_NewDayDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnNewDayDelegate_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnNewDayDelegate_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnGameStateTickDelegate_MetaData[] = {
+		{ "Category", "AccurateDayNight" },
+		{ "ModuleRelativePath", "Public/AccurateDayNightGameState.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnGameStateTickDelegate = { "OnGameStateTickDelegate", nullptr, (EPropertyFlags)0x0010000010080000, UE4CodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AAccurateDayNightGameState, OnGameStateTickDelegate), Z_Construct_UDelegateFunction_AccurateDayNight_GameStateTickDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnGameStateTickDelegate_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnGameStateTickDelegate_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_SunsetTime_MetaData[] = {
 		{ "Category", "AccurateDayNight" },
@@ -1044,11 +1092,21 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 		((AAccurateDayNightGameState*)Obj)->bWithX500Time = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithX500Time = { "bWithX500Time", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(AAccurateDayNightGameState), &Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithX500Time_SetBit, METADATA_PARAMS(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithX500Time_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithX500Time_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_DayNightTransitionTime_MetaData[] = {
+		{ "Category", "AccurateDayNight" },
+		{ "Comment", "/* Day/Night Transition Time */" },
+		{ "ModuleRelativePath", "Public/AccurateDayNightGameState.h" },
+		{ "ToolTip", "Day/Night Transition Time" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_DayNightTransitionTime = { "DayNightTransitionTime", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(AAccurateDayNightGameState, DayNightTransitionTime), Z_Construct_UScriptStruct_FTimespan, METADATA_PARAMS(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_DayNightTransitionTime_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_DayNightTransitionTime_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AAccurateDayNightGameState_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnDayNightCycleChangeDelegate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnDayNightScheduleChangeDelegate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnGameSpeedChangeDelegate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnNewDayDelegate,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_OnGameStateTickDelegate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_SunsetTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_SunriseTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_EGameSpeed_Underlying,
@@ -1064,6 +1122,7 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithRealTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithX50Time,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_bWithX500Time,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAccurateDayNightGameState_Statics::NewProp_DayNightTransitionTime,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AAccurateDayNightGameState_Statics::StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<AAccurateDayNightGameState>::IsAbstract,
@@ -1092,7 +1151,7 @@ void EmptyLinkFunctionForGeneratedCodeAccurateDayNightGameState() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AAccurateDayNightGameState, 999844831);
+	IMPLEMENT_CLASS(AAccurateDayNightGameState, 4159709552);
 	template<> ACCURATEDAYNIGHT_API UClass* StaticClass<AAccurateDayNightGameState>()
 	{
 		return AAccurateDayNightGameState::StaticClass();

@@ -15,22 +15,22 @@ struct FRotator;
 struct FSunPositionRules;
 struct FTimespan;
 struct FDateTime;
+enum class EEDayNightCicle : uint8;
 #ifdef ACCURATEDAYNIGHT_SkyActor_generated_h
 #error "SkyActor.generated.h already included, missing '#pragma once' in SkyActor.h"
 #endif
 #define ACCURATEDAYNIGHT_SkyActor_generated_h
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_SPARSE_DATA
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_RPC_WRAPPERS \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_SPARSE_DATA
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_RPC_WRAPPERS \
  \
-	DECLARE_FUNCTION(execDoOnDay); \
-	DECLARE_FUNCTION(execDoOnSunrise); \
-	DECLARE_FUNCTION(execDoOnBeforeSunrise); \
-	DECLARE_FUNCTION(execDoOnNight); \
-	DECLARE_FUNCTION(execDoOnSunset); \
-	DECLARE_FUNCTION(execDoOnBeforeSunset); \
+	DECLARE_FUNCTION(execOnDay); \
+	DECLARE_FUNCTION(execOnSunrise); \
+	DECLARE_FUNCTION(execOnBeforeSunrise); \
+	DECLARE_FUNCTION(execOnNight); \
+	DECLARE_FUNCTION(execOnSunset); \
+	DECLARE_FUNCTION(execOnBeforeSunset); \
 	DECLARE_FUNCTION(execIsDST); \
-	DECLARE_FUNCTION(execGetHMSFromSolarTime); \
 	DECLARE_FUNCTION(execSetMoonRules); \
 	DECLARE_FUNCTION(execUpdateSky); \
 	DECLARE_FUNCTION(execUpdateCompass); \
@@ -39,19 +39,20 @@ struct FDateTime;
 	DECLARE_FUNCTION(execGetCurrentRotator); \
 	DECLARE_FUNCTION(execGetSunriseTime); \
 	DECLARE_FUNCTION(execGetSunsetTime); \
-	DECLARE_FUNCTION(execUpdate);
+	DECLARE_FUNCTION(execUpdate); \
+	DECLARE_FUNCTION(execOnGameStateTick); \
+	DECLARE_FUNCTION(execOnDayNightCycleChange);
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_RPC_WRAPPERS_NO_PURE_DECLS \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_RPC_WRAPPERS_NO_PURE_DECLS \
  \
-	DECLARE_FUNCTION(execDoOnDay); \
-	DECLARE_FUNCTION(execDoOnSunrise); \
-	DECLARE_FUNCTION(execDoOnBeforeSunrise); \
-	DECLARE_FUNCTION(execDoOnNight); \
-	DECLARE_FUNCTION(execDoOnSunset); \
-	DECLARE_FUNCTION(execDoOnBeforeSunset); \
+	DECLARE_FUNCTION(execOnDay); \
+	DECLARE_FUNCTION(execOnSunrise); \
+	DECLARE_FUNCTION(execOnBeforeSunrise); \
+	DECLARE_FUNCTION(execOnNight); \
+	DECLARE_FUNCTION(execOnSunset); \
+	DECLARE_FUNCTION(execOnBeforeSunset); \
 	DECLARE_FUNCTION(execIsDST); \
-	DECLARE_FUNCTION(execGetHMSFromSolarTime); \
 	DECLARE_FUNCTION(execSetMoonRules); \
 	DECLARE_FUNCTION(execUpdateSky); \
 	DECLARE_FUNCTION(execUpdateCompass); \
@@ -60,10 +61,12 @@ struct FDateTime;
 	DECLARE_FUNCTION(execGetCurrentRotator); \
 	DECLARE_FUNCTION(execGetSunriseTime); \
 	DECLARE_FUNCTION(execGetSunsetTime); \
-	DECLARE_FUNCTION(execUpdate);
+	DECLARE_FUNCTION(execUpdate); \
+	DECLARE_FUNCTION(execOnGameStateTick); \
+	DECLARE_FUNCTION(execOnDayNightCycleChange);
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_INCLASS_NO_PURE_DECLS \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesASkyActor(); \
 	friend struct Z_Construct_UClass_ASkyActor_Statics; \
@@ -72,7 +75,7 @@ public: \
 	DECLARE_SERIALIZER(ASkyActor)
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_INCLASS \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_INCLASS \
 private: \
 	static void StaticRegisterNativesASkyActor(); \
 	friend struct Z_Construct_UClass_ASkyActor_Statics; \
@@ -81,7 +84,7 @@ public: \
 	DECLARE_SERIALIZER(ASkyActor)
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_STANDARD_CONSTRUCTORS \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API ASkyActor(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(ASkyActor) \
@@ -94,7 +97,7 @@ private: \
 public:
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_ENHANCED_CONSTRUCTORS \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API ASkyActor(ASkyActor&&); \
@@ -105,28 +108,28 @@ public: \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(ASkyActor)
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_PRIVATE_PROPERTY_OFFSET
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_32_PROLOG
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_GENERATED_BODY_LEGACY \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_PRIVATE_PROPERTY_OFFSET
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_PROLOG
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_PRIVATE_PROPERTY_OFFSET \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_SPARSE_DATA \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_RPC_WRAPPERS \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_INCLASS \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_STANDARD_CONSTRUCTORS \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_PRIVATE_PROPERTY_OFFSET \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_SPARSE_DATA \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_RPC_WRAPPERS \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_INCLASS \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_GENERATED_BODY \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_PRIVATE_PROPERTY_OFFSET \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_SPARSE_DATA \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_RPC_WRAPPERS_NO_PURE_DECLS \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_INCLASS_NO_PURE_DECLS \
-	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_35_ENHANCED_CONSTRUCTORS \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_PRIVATE_PROPERTY_OFFSET \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_SPARSE_DATA \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_RPC_WRAPPERS_NO_PURE_DECLS \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_INCLASS_NO_PURE_DECLS \
+	MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_SkyActor_h_38_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

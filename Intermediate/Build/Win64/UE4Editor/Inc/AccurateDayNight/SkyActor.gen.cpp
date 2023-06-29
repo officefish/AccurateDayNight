@@ -21,59 +21,72 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 	ACCURATEDAYNIGHT_API UScriptStruct* Z_Construct_UScriptStruct_FSunPositionRules();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FTimespan();
 	ACCURATEDAYNIGHT_API UScriptStruct* Z_Construct_UScriptStruct_FDayLightSavingsTime();
-	ACCURATEDAYNIGHT_API UScriptStruct* Z_Construct_UScriptStruct_FMoonRules();
+	ACCURATEDAYNIGHT_API UEnum* Z_Construct_UEnum_AccurateDayNight_EEDayNightCicle();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FDateTime();
+	ACCURATEDAYNIGHT_API UScriptStruct* Z_Construct_UScriptStruct_FMoonRules();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FQuat();
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkyLightComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkyAtmosphereComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UDirectionalLightComponent_NoRegister();
-	ENGINE_API UClass* Z_Construct_UClass_UExponentialHeightFogComponent_NoRegister();
 	ACCURATEDAYNIGHT_API UClass* Z_Construct_UClass_UCompassComponent_NoRegister();
 	ACCURATEDAYNIGHT_API UClass* Z_Construct_UClass_UMoonComponent_NoRegister();
+	ENGINE_API UClass* Z_Construct_UClass_UExponentialHeightFogComponent_NoRegister();
 	ACCURATEDAYNIGHT_API UClass* Z_Construct_UClass_UDateTimeTickData_NoRegister();
 	ACCURATEDAYNIGHT_API UScriptStruct* Z_Construct_UScriptStruct_FDayNightCycleRules();
 // End Cross Module References
-	DEFINE_FUNCTION(ASkyActor::execDoOnDay)
+	DEFINE_FUNCTION(ASkyActor::execOnDay)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_Modifier);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_InverseModifier);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->DoOnDay();
+		P_THIS->OnDay(Z_Param_Modifier,Z_Param_InverseModifier);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASkyActor::execDoOnSunrise)
+	DEFINE_FUNCTION(ASkyActor::execOnSunrise)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_Modifier);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_InverseModifier);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->DoOnSunrise();
+		P_THIS->OnSunrise(Z_Param_Modifier,Z_Param_InverseModifier);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASkyActor::execDoOnBeforeSunrise)
+	DEFINE_FUNCTION(ASkyActor::execOnBeforeSunrise)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_Modifier);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_InverseModifier);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->DoOnBeforeSunrise();
+		P_THIS->OnBeforeSunrise(Z_Param_Modifier,Z_Param_InverseModifier);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASkyActor::execDoOnNight)
+	DEFINE_FUNCTION(ASkyActor::execOnNight)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_Modifier);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_InverseModifier);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->DoOnNight();
+		P_THIS->OnNight(Z_Param_Modifier,Z_Param_InverseModifier);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASkyActor::execDoOnSunset)
+	DEFINE_FUNCTION(ASkyActor::execOnSunset)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_Modifier);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_InverseModifier);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->DoOnSunset();
+		P_THIS->OnSunset(Z_Param_Modifier,Z_Param_InverseModifier);
 		P_NATIVE_END;
 	}
-	DEFINE_FUNCTION(ASkyActor::execDoOnBeforeSunset)
+	DEFINE_FUNCTION(ASkyActor::execOnBeforeSunset)
 	{
+		P_GET_PROPERTY(FFloatProperty,Z_Param_Modifier);
+		P_GET_PROPERTY(FFloatProperty,Z_Param_InverseModifier);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		P_THIS->DoOnBeforeSunset();
+		P_THIS->OnBeforeSunset(Z_Param_Modifier,Z_Param_InverseModifier);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(ASkyActor::execIsDST)
@@ -82,17 +95,6 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		P_FINISH;
 		P_NATIVE_BEGIN;
 		*(bool*)Z_Param__Result=P_THIS->IsDST(Z_Param_DSTStruct);
-		P_NATIVE_END;
-	}
-	DEFINE_FUNCTION(ASkyActor::execGetHMSFromSolarTime)
-	{
-		P_GET_PROPERTY(FFloatProperty,Z_Param_SolarTime_loc);
-		P_GET_PROPERTY_REF(FIntProperty,Z_Param_Out_Hour);
-		P_GET_PROPERTY_REF(FIntProperty,Z_Param_Out_Minute);
-		P_GET_PROPERTY_REF(FIntProperty,Z_Param_Out_Second);
-		P_FINISH;
-		P_NATIVE_BEGIN;
-		P_THIS->GetHMSFromSolarTime(Z_Param_SolarTime_loc,Z_Param_Out_Hour,Z_Param_Out_Minute,Z_Param_Out_Second);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(ASkyActor::execSetMoonRules)
@@ -165,21 +167,38 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		P_THIS->Update(Z_Param_CurrentDateTime);
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(ASkyActor::execOnGameStateTick)
+	{
+		P_GET_STRUCT(FDateTime,Z_Param_TickDateTime);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->OnGameStateTick(Z_Param_TickDateTime);
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(ASkyActor::execOnDayNightCycleChange)
+	{
+		P_GET_ENUM(EEDayNightCicle,Z_Param_EDayNightCicle);
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->OnDayNightCycleChange(EEDayNightCicle(Z_Param_EDayNightCicle));
+		P_NATIVE_END;
+	}
 	void ASkyActor::StaticRegisterNativesASkyActor()
 	{
 		UClass* Class = ASkyActor::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
-			{ "DoOnBeforeSunrise", &ASkyActor::execDoOnBeforeSunrise },
-			{ "DoOnBeforeSunset", &ASkyActor::execDoOnBeforeSunset },
-			{ "DoOnDay", &ASkyActor::execDoOnDay },
-			{ "DoOnNight", &ASkyActor::execDoOnNight },
-			{ "DoOnSunrise", &ASkyActor::execDoOnSunrise },
-			{ "DoOnSunset", &ASkyActor::execDoOnSunset },
 			{ "GetCurrentRotator", &ASkyActor::execGetCurrentRotator },
-			{ "GetHMSFromSolarTime", &ASkyActor::execGetHMSFromSolarTime },
 			{ "GetSunriseTime", &ASkyActor::execGetSunriseTime },
 			{ "GetSunsetTime", &ASkyActor::execGetSunsetTime },
 			{ "IsDST", &ASkyActor::execIsDST },
+			{ "OnBeforeSunrise", &ASkyActor::execOnBeforeSunrise },
+			{ "OnBeforeSunset", &ASkyActor::execOnBeforeSunset },
+			{ "OnDay", &ASkyActor::execOnDay },
+			{ "OnDayNightCycleChange", &ASkyActor::execOnDayNightCycleChange },
+			{ "OnGameStateTick", &ASkyActor::execOnGameStateTick },
+			{ "OnNight", &ASkyActor::execOnNight },
+			{ "OnSunrise", &ASkyActor::execOnSunrise },
+			{ "OnSunset", &ASkyActor::execOnSunset },
 			{ "SetMoonRules", &ASkyActor::execSetMoonRules },
 			{ "Update", &ASkyActor::execUpdate },
 			{ "UpdateCompass", &ASkyActor::execUpdateCompass },
@@ -188,140 +207,6 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 			{ "UpdateSun", &ASkyActor::execUpdateSun },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
-	}
-	struct Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "DoOnBeforeSunrise", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset_Statics::Function_MetaDataParams[] = {
-		{ "Comment", "//DayNight Cycle Change\n" },
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-		{ "ToolTip", "DayNight Cycle Change" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "DoOnBeforeSunset", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_ASkyActor_DoOnDay_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_DoOnDay_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_DoOnDay_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "DoOnDay", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_DoOnDay_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_DoOnDay_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_DoOnDay()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_DoOnDay_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_ASkyActor_DoOnNight_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_DoOnNight_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_DoOnNight_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "DoOnNight", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_DoOnNight_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_DoOnNight_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_DoOnNight()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_DoOnNight_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_ASkyActor_DoOnSunrise_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_DoOnSunrise_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_DoOnSunrise_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "DoOnSunrise", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_DoOnSunrise_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_DoOnSunrise_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_DoOnSunrise()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_DoOnSunrise_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_ASkyActor_DoOnSunset_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_DoOnSunset_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_DoOnSunset_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "DoOnSunset", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_DoOnSunset_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_DoOnSunset_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_DoOnSunset()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_DoOnSunset_Statics::FuncParams);
-		}
-		return ReturnFunction;
 	}
 	struct Z_Construct_UFunction_ASkyActor_GetCurrentRotator_Statics
 	{
@@ -356,50 +241,6 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_GetCurrentRotator_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics
-	{
-		struct SkyActor_eventGetHMSFromSolarTime_Parms
-		{
-			float SolarTime_loc;
-			int32 Hour;
-			int32 Minute;
-			int32 Second;
-		};
-		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_SolarTime_loc;
-		static const UE4CodeGen_Private::FIntPropertyParams NewProp_Hour;
-		static const UE4CodeGen_Private::FIntPropertyParams NewProp_Minute;
-		static const UE4CodeGen_Private::FIntPropertyParams NewProp_Second;
-		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_SolarTime_loc = { "SolarTime_loc", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventGetHMSFromSolarTime_Parms, SolarTime_loc), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_Hour = { "Hour", nullptr, (EPropertyFlags)0x0010000000000180, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventGetHMSFromSolarTime_Parms, Hour), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_Minute = { "Minute", nullptr, (EPropertyFlags)0x0010000000000180, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventGetHMSFromSolarTime_Parms, Minute), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_Second = { "Second", nullptr, (EPropertyFlags)0x0010000000000180, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventGetHMSFromSolarTime_Parms, Second), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_SolarTime_loc,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_Hour,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_Minute,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::NewProp_Second,
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "GetHMSFromSolarTime", nullptr, nullptr, sizeof(SkyActor_eventGetHMSFromSolarTime_Parms), Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04420401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -508,6 +349,293 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics
+	{
+		struct SkyActor_eventOnBeforeSunrise_Parms
+		{
+			float Modifier;
+			float InverseModifier;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Modifier;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_InverseModifier;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::NewProp_Modifier = { "Modifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnBeforeSunrise_Parms, Modifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::NewProp_InverseModifier = { "InverseModifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnBeforeSunrise_Parms, InverseModifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::NewProp_Modifier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::NewProp_InverseModifier,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnBeforeSunrise", nullptr, nullptr, sizeof(SkyActor_eventOnBeforeSunrise_Parms), Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnBeforeSunrise()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnBeforeSunrise_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics
+	{
+		struct SkyActor_eventOnBeforeSunset_Parms
+		{
+			float Modifier;
+			float InverseModifier;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Modifier;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_InverseModifier;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::NewProp_Modifier = { "Modifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnBeforeSunset_Parms, Modifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::NewProp_InverseModifier = { "InverseModifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnBeforeSunset_Parms, InverseModifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::NewProp_Modifier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::NewProp_InverseModifier,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::Function_MetaDataParams[] = {
+		{ "Comment", "//DayNight Cycle Change\n" },
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+		{ "ToolTip", "DayNight Cycle Change" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnBeforeSunset", nullptr, nullptr, sizeof(SkyActor_eventOnBeforeSunset_Parms), Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnBeforeSunset()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnBeforeSunset_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnDay_Statics
+	{
+		struct SkyActor_eventOnDay_Parms
+		{
+			float Modifier;
+			float InverseModifier;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Modifier;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_InverseModifier;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnDay_Statics::NewProp_Modifier = { "Modifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnDay_Parms, Modifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnDay_Statics::NewProp_InverseModifier = { "InverseModifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnDay_Parms, InverseModifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnDay_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnDay_Statics::NewProp_Modifier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnDay_Statics::NewProp_InverseModifier,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnDay_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnDay_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnDay", nullptr, nullptr, sizeof(SkyActor_eventOnDay_Parms), Z_Construct_UFunction_ASkyActor_OnDay_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnDay_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnDay_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnDay_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnDay()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnDay_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics
+	{
+		struct SkyActor_eventOnDayNightCycleChange_Parms
+		{
+			EEDayNightCicle EDayNightCicle;
+		};
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_EDayNightCicle_Underlying;
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_EDayNightCicle;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::NewProp_EDayNightCicle_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UE4CodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, 1, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::NewProp_EDayNightCicle = { "EDayNightCicle", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnDayNightCycleChange_Parms, EDayNightCicle), Z_Construct_UEnum_AccurateDayNight_EEDayNightCicle, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::NewProp_EDayNightCicle_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::NewProp_EDayNightCicle,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::Function_MetaDataParams[] = {
+		{ "Comment", "/**\n\x09 Functions\n\x09*/// GameState Listeners\n" },
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+		{ "ToolTip", "Functions\n// GameState Listeners" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnDayNightCycleChange", nullptr, nullptr, sizeof(SkyActor_eventOnDayNightCycleChange_Parms), Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics
+	{
+		struct SkyActor_eventOnGameStateTick_Parms
+		{
+			FDateTime TickDateTime;
+		};
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_TickDateTime;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::NewProp_TickDateTime = { "TickDateTime", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnGameStateTick_Parms, TickDateTime), Z_Construct_UScriptStruct_FDateTime, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::NewProp_TickDateTime,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnGameStateTick", nullptr, nullptr, sizeof(SkyActor_eventOnGameStateTick_Parms), Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00820401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnGameStateTick()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnGameStateTick_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnNight_Statics
+	{
+		struct SkyActor_eventOnNight_Parms
+		{
+			float Modifier;
+			float InverseModifier;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Modifier;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_InverseModifier;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnNight_Statics::NewProp_Modifier = { "Modifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnNight_Parms, Modifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnNight_Statics::NewProp_InverseModifier = { "InverseModifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnNight_Parms, InverseModifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnNight_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnNight_Statics::NewProp_Modifier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnNight_Statics::NewProp_InverseModifier,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnNight_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnNight_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnNight", nullptr, nullptr, sizeof(SkyActor_eventOnNight_Parms), Z_Construct_UFunction_ASkyActor_OnNight_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnNight_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnNight_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnNight_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnNight()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnNight_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnSunrise_Statics
+	{
+		struct SkyActor_eventOnSunrise_Parms
+		{
+			float Modifier;
+			float InverseModifier;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Modifier;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_InverseModifier;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::NewProp_Modifier = { "Modifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnSunrise_Parms, Modifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::NewProp_InverseModifier = { "InverseModifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnSunrise_Parms, InverseModifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::NewProp_Modifier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::NewProp_InverseModifier,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnSunrise", nullptr, nullptr, sizeof(SkyActor_eventOnSunrise_Parms), Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnSunrise()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnSunrise_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_ASkyActor_OnSunset_Statics
+	{
+		struct SkyActor_eventOnSunset_Parms
+		{
+			float Modifier;
+			float InverseModifier;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_Modifier;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_InverseModifier;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnSunset_Statics::NewProp_Modifier = { "Modifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnSunset_Parms, Modifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_ASkyActor_OnSunset_Statics::NewProp_InverseModifier = { "InverseModifier", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(SkyActor_eventOnSunset_Parms, InverseModifier), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_ASkyActor_OnSunset_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnSunset_Statics::NewProp_Modifier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_ASkyActor_OnSunset_Statics::NewProp_InverseModifier,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_OnSunset_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_OnSunset_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "OnSunset", nullptr, nullptr, sizeof(SkyActor_eventOnSunset_Parms), Z_Construct_UFunction_ASkyActor_OnSunset_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnSunset_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_OnSunset_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_OnSunset_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_ASkyActor_OnSunset()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_ASkyActor_OnSunset_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_ASkyActor_SetMoonRules_Statics
 	{
 		struct SkyActor_eventSetMoonRules_Parms
@@ -559,9 +687,8 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_ASkyActor_Update_Statics::Function_MetaDataParams[] = {
-		{ "Comment", "/**\n\x09 Functions\n\x09*/" },
+		{ "Comment", "//\n" },
 		{ "ModuleRelativePath", "Public/SkyActor.h" },
-		{ "ToolTip", "Functions" },
 	};
 #endif
 	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_ASkyActor_Update_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_ASkyActor, nullptr, "Update", nullptr, nullptr, sizeof(SkyActor_eventUpdate_Parms), Z_Construct_UFunction_ASkyActor_Update_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_Update_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04820401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_ASkyActor_Update_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_ASkyActor_Update_Statics::Function_MetaDataParams)) };
@@ -744,10 +871,6 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_SunDirectionalLight;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ExponentialHeightFog_MetaData[];
-#endif
-		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ExponentialHeightFog;
-#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CompassComponent_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CompassComponent;
@@ -755,6 +878,10 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MoonComponent_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_MoonComponent;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ExponentialHeightFog_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ExponentialHeightFog;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SunPositionRules_MetaData[];
 #endif
@@ -789,19 +916,20 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		(UObject* (*)())Z_Construct_UPackage__Script_AccurateDayNight,
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_ASkyActor_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_ASkyActor_DoOnBeforeSunrise, "DoOnBeforeSunrise" }, // 3829290341
-		{ &Z_Construct_UFunction_ASkyActor_DoOnBeforeSunset, "DoOnBeforeSunset" }, // 1490110
-		{ &Z_Construct_UFunction_ASkyActor_DoOnDay, "DoOnDay" }, // 625476914
-		{ &Z_Construct_UFunction_ASkyActor_DoOnNight, "DoOnNight" }, // 483957783
-		{ &Z_Construct_UFunction_ASkyActor_DoOnSunrise, "DoOnSunrise" }, // 953260973
-		{ &Z_Construct_UFunction_ASkyActor_DoOnSunset, "DoOnSunset" }, // 718742396
 		{ &Z_Construct_UFunction_ASkyActor_GetCurrentRotator, "GetCurrentRotator" }, // 2367590793
-		{ &Z_Construct_UFunction_ASkyActor_GetHMSFromSolarTime, "GetHMSFromSolarTime" }, // 3796770403
 		{ &Z_Construct_UFunction_ASkyActor_GetSunriseTime, "GetSunriseTime" }, // 1518834674
 		{ &Z_Construct_UFunction_ASkyActor_GetSunsetTime, "GetSunsetTime" }, // 434738211
 		{ &Z_Construct_UFunction_ASkyActor_IsDST, "IsDST" }, // 4111255987
+		{ &Z_Construct_UFunction_ASkyActor_OnBeforeSunrise, "OnBeforeSunrise" }, // 1852714328
+		{ &Z_Construct_UFunction_ASkyActor_OnBeforeSunset, "OnBeforeSunset" }, // 945788670
+		{ &Z_Construct_UFunction_ASkyActor_OnDay, "OnDay" }, // 3277868051
+		{ &Z_Construct_UFunction_ASkyActor_OnDayNightCycleChange, "OnDayNightCycleChange" }, // 3135535593
+		{ &Z_Construct_UFunction_ASkyActor_OnGameStateTick, "OnGameStateTick" }, // 2574902780
+		{ &Z_Construct_UFunction_ASkyActor_OnNight, "OnNight" }, // 733113287
+		{ &Z_Construct_UFunction_ASkyActor_OnSunrise, "OnSunrise" }, // 3198801476
+		{ &Z_Construct_UFunction_ASkyActor_OnSunset, "OnSunset" }, // 3218197030
 		{ &Z_Construct_UFunction_ASkyActor_SetMoonRules, "SetMoonRules" }, // 2925490237
-		{ &Z_Construct_UFunction_ASkyActor_Update, "Update" }, // 191157715
+		{ &Z_Construct_UFunction_ASkyActor_Update, "Update" }, // 2593786083
 		{ &Z_Construct_UFunction_ASkyActor_UpdateCompass, "UpdateCompass" }, // 87965991
 		{ &Z_Construct_UFunction_ASkyActor_UpdateMoon, "UpdateMoon" }, // 2474060418
 		{ &Z_Construct_UFunction_ASkyActor_UpdateSky, "UpdateSky" }, // 673916616
@@ -854,17 +982,6 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASkyActor_Statics::NewProp_SunDirectionalLight = { "DirectionalLight", nullptr, (EPropertyFlags)0x001000000009000d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASkyActor, SunDirectionalLight), Z_Construct_UClass_UDirectionalLightComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASkyActor_Statics::NewProp_SunDirectionalLight_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASkyActor_Statics::NewProp_SunDirectionalLight_MetaData)) };
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog_MetaData[] = {
-		{ "Category", "Default" },
-		{ "Comment", "// Exponential Height Fog\n" },
-		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/SkyActor.h" },
-		{ "OverrideNativeName", "ExponentialHeightFog" },
-		{ "ToolTip", "Exponential Height Fog" },
-	};
-#endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog = { "ExponentialHeightFog", nullptr, (EPropertyFlags)0x001000000009000d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASkyActor, ExponentialHeightFog), Z_Construct_UClass_UExponentialHeightFogComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog_MetaData)) };
-#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ASkyActor_Statics::NewProp_CompassComponent_MetaData[] = {
 		{ "Category", "Default" },
 		{ "Comment", "//Compass \n" },
@@ -886,6 +1003,17 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 	};
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASkyActor_Statics::NewProp_MoonComponent = { "MoonComponent", nullptr, (EPropertyFlags)0x001000000009000d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASkyActor, MoonComponent), Z_Construct_UClass_UMoonComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASkyActor_Statics::NewProp_MoonComponent_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASkyActor_Statics::NewProp_MoonComponent_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog_MetaData[] = {
+		{ "Category", "Default" },
+		{ "Comment", "// Exponential Height Fog\n" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/SkyActor.h" },
+		{ "OverrideNativeName", "ExponentialHeightFog" },
+		{ "ToolTip", "Exponential Height Fog" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog = { "ExponentialHeightFog", nullptr, (EPropertyFlags)0x001000000009000d, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ASkyActor, ExponentialHeightFog), Z_Construct_UClass_UExponentialHeightFogComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ASkyActor_Statics::NewProp_SunPositionRules_MetaData[] = {
 		{ "Category", "Location" },
@@ -943,9 +1071,9 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_SkyLight,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_SkyAtmosphere,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_SunDirectionalLight,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_CompassComponent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_MoonComponent,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_ExponentialHeightFog,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_SunPositionRules,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_DayLightSavingsTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ASkyActor_Statics::NewProp_DateTimeTickData,
@@ -980,7 +1108,7 @@ void EmptyLinkFunctionForGeneratedCodeSkyActor() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ASkyActor, 3943205443);
+	IMPLEMENT_CLASS(ASkyActor, 2859242795);
 	template<> ACCURATEDAYNIGHT_API UClass* StaticClass<ASkyActor>()
 	{
 		return ASkyActor::StaticClass();

@@ -24,6 +24,8 @@ AAccurateDayNightGameState::AAccurateDayNightGameState()
 
 	bWithDayNightCycle = true;
 
+	
+
 }
 
 void AAccurateDayNightGameState::SetGameSpeed(TEnumAsByte<EEGameSpeed> EGameSpeedStatus)
@@ -341,6 +343,8 @@ void AAccurateDayNightGameState::Tick(float DeltaTime)
 		//FString SunsetTimeStr = SunsetTime.ToString(TEXT("%h.%m"));
 		//UE_LOG(LogTemp, Warning, TEXT("SunsetTime: %s"), *SunsetTimeStr);
 	}
+
+	OnGameStateTickDelegate.Broadcast(FullDateTime);
 
 	//FString NewDateTimeStr = FullDateTime.ToString(TEXT("%Y.%m.%d-%H.%M.%S"));
 	//UE_LOG(LogTemp, Warning, TEXT("FullDateTime: %s"), *NewDateTimeStr);

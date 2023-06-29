@@ -29,13 +29,13 @@ D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\LightComponent.g
 D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\DirectionalLightComponent.generated.h
 D:\UE_4.27\Engine\Source\Runtime\Engine\Classes\Materials/MaterialInstanceConstant.h
 D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\MaterialInstanceConstant.generated.h
+D:\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/ExponentialHeightFogComponent.h
+D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ExponentialHeightFogComponent.generated.h
 D:\Cookbook\MyProject\Plugins\AccurateDayNight\Intermediate\Build\Win64\UE4Editor\Inc\AccurateDayNight\MoonComponent.generated.h
 D:/Cookbook/MyProject/Plugins/AccurateDayNight/Intermediate/Build/Win64/UE4Editor/Inc/AccurateDayNight/SkyActor.gen.cpp
 D:\Cookbook\MyProject\Plugins\AccurateDayNight\Source\AccurateDayNight/Public/SkyActor.h
 D:\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/SkyLightComponent.h
 D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SkyLightComponent.generated.h
-D:\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/ExponentialHeightFogComponent.h
-D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ExponentialHeightFogComponent.generated.h
 D:\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/SkyAtmosphereComponent.h
 D:\UE_4.27\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SkyAtmosphereComponent.generated.h
 D:\UE_4.27\Engine\Source\Runtime\Engine\Classes\Components/TimelineComponent.h

@@ -10,12 +10,24 @@ UMoonComponent::UMoonComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
+	//Exponential Height fog / Only in Editor mode
+	/*ExponentialHeightFog = CreateDefaultSubobject<UExponentialHeightFogComponent>(TEXT("ExponentialHeightFog"));
+
+	FLinearColor albedofogcolor = FLinearColor(ALBEDO_COLOR, ALBEDO_COLOR, ALBEDO_COLOR, 1.0f);
+
+	ExponentialHeightFog->FogDensity = 0.05f;
+	ExponentialHeightFog->SetVolumetricFog(true);
+	ExponentialHeightFog->VolumetricFogScatteringDistribution = 0.9f;
+	ExponentialHeightFog->VolumetricFogAlbedo = albedofogcolor.ToFColor(false);
+	ExponentialHeightFog->VolumetricFogExtinctionScale = 15.0f;*/
+	//HideFog();
+	//SetFogAlpha(1.0f);
+
 	MoonLight = CreateDefaultSubobject<UDirectionalLightComponent>(TEXT("MoonLight"));
 	SkySphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SkySphereMesh"));
 
 	//MoonLight
 	MoonLight->SetMobility(EComponentMobility::Movable);
-	MoonLight->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
 
 	MoonLight->DynamicShadowCascades = 5;
 	MoonLight->CascadeDistributionExponent = 1.400000f;
@@ -30,7 +42,6 @@ UMoonComponent::UMoonComponent()
 
 	//SkySphereMesh
 	SkySphereMesh->CreationMethod = EComponentCreationMethod::Native;
-	SkySphereMesh->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
 	SkySphereMesh->SetMobility(EComponentMobility::Static);
 	SkySphereMesh->OverrideMaterials = TArray<UMaterialInterface*>();
 	SkySphereMesh->OverrideMaterials.Add(nullptr);
@@ -77,7 +88,10 @@ UMoonComponent::UMoonComponent()
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("NightSky material not found."));
 	}
+
+	
 }
+
 
 void UMoonComponent::SetMoonRotation(const FRotator& MoonRotator)
 {
@@ -92,8 +106,8 @@ void UMoonComponent::SetMoonRules(FMoonRules InputMoonRules) {
 	MoonRules = InputMoonRules;
 
 	SetMoonRadius(MoonRules.MoonSize);
-	SetMoonEnable(MoonRules.MoonEnable);
-	SetMoonIntensity(MoonRules.MoonLightStrength);
+	//SetMoonEnable(MoonRules.MoonEnable);
+	//SetMoonIntensity(MoonRules.MoonLightStrength);
 }
 
 /*
@@ -127,24 +141,22 @@ void UMoonComponent::SetMoonEnable(float MoonEnable)
 	}
 }
 
-void UMoonComponent::SetMoonIntensity(float MoonLightStrength)
+void UMoonComponent::SetMoonIntensity(float Modifier)
 {
 	if (::IsValid(MoonLight))
 	{
-		MoonLight->SetIntensity(MoonLightStrength);
+		MoonLight->SetIntensity(MoonRules.MoonLightStrength * Modifier);
 	}
 }
 
-/*
-*
-*/
-void UMoonComponent::OnConstruction(const FTransform& Transform)
+void  UMoonComponent::SetStarsBrightness(float Modifier)
 {
-	
+	if (::IsValid(NightSkyMaterial))
+	{
+		NightSkyMaterial->SetScalarParameterValue(FName(TEXT("StarsBrightness")), 
+			MoonRules.MaxStarsBrightness * Modifier);
+	}
 }
-
-
-
 
 // Called when the game starts
 void UMoonComponent::BeginPlay()
@@ -161,15 +173,16 @@ void UMoonComponent::BeginPlay()
 	} {
 		UE_LOG(LogTemp, Warning, TEXT("SkeSpereMesh use static material."));
 	}
+
+	if (::IsValid(MoonLight)) {
+		MoonLight->AttachToComponent(GetOwner()->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	}
+
+	if (::IsValid(SkySphereMesh))
+	{
+		SkySphereMesh->AttachToComponent(GetOwner()->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	}
 	
 }
 
-
-// Called every frame
-void UMoonComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
 

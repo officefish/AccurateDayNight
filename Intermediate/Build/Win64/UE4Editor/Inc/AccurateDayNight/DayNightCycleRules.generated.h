@@ -13,14 +13,14 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define ACCURATEDAYNIGHT_DayNightCycleRules_generated_h
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_DayNightCycleRules_h_131_GENERATED_BODY \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_DayNightCycleRules_h_134_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FSunPositionRules_Statics; \
 	ACCURATEDAYNIGHT_API static class UScriptStruct* StaticStruct();
 
 
 template<> ACCURATEDAYNIGHT_API UScriptStruct* StaticStruct<struct FSunPositionRules>();
 
-#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_DayNightCycleRules_h_99_GENERATED_BODY \
+#define MyProject_Plugins_AccurateDayNight_Source_AccurateDayNight_Public_DayNightCycleRules_h_102_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FDayNightCycleRules_Statics; \
 	ACCURATEDAYNIGHT_API static class UScriptStruct* StaticStruct();
 

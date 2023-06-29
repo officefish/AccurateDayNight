@@ -8,6 +8,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInstanceConstant.h"
+#include "Components/ExponentialHeightFogComponent.h"
+
 #include "DayNightCycleRules.h"
 
 #include "MoonComponent.generated.h"
@@ -35,6 +37,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true", Category = "Default", OverrideNativeName = "SkySphereMesh"))
 		UStaticMeshComponent* SkySphereMesh;
 
+
+
 public:
 
 	void SetMoonRotation(const FRotator& MoonRotator);
@@ -43,8 +47,13 @@ public:
 	void SetMoonEnable(float MoonEnable);
 	void SetMoonRadius(float MoonRadius);
 	void SetMoonIntensity(float MoonLightStrength);
+	void SetStarsBrightness(float StarsBrightness);
 
 	void SetMoonRules(FMoonRules MoonRulesInput);
+
+
+protected:
+	const float ALBEDO_COLOR = 0.603827;
 
 private:
 	UMaterialInterface* NightSkyMaterialFound;
@@ -52,13 +61,5 @@ private:
 
 protected:
 	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	virtual void OnConstruction(const FTransform& Transform);
-
-		
+	virtual void BeginPlay() override;		
 };

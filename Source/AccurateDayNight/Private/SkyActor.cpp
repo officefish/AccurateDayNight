@@ -7,13 +7,10 @@
 ASkyActor::ASkyActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	//PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true;
 
 	// Setup default values for class fields
 	SetupDefaults();
-
-	// Construct Timelines
-	ConstructTimeLines();
 
 	// Construct Subobjects
 	ConstructSubObjects();
@@ -59,9 +56,11 @@ void ASkyActor::SetupDefaults()
 	FMoonRules MoonMake;
 	MoonMake.Moon = true;
 	MoonMake.MoonEnable = 1.0f;
-	MoonMake.MoonLightStrength = 0.1f;
+	MoonMake.MoonLightStrength = 0.01f;
 	MoonMake.MoonDistance = 0.0f;
 	MoonMake.MoonSize = 0.005f;
+	MoonMake.MaxStarsBrightness = 3.5f;
+
 	MoonRules = MoonMake;
 
 	/* DayNightCycleRules */
@@ -73,7 +72,9 @@ void ASkyActor::SetupDefaults()
 	Make.RealWorldTimeInGameTime = rwtigt;
 	DayNightRules = Make;
 
-	//MaxStarsBrightness = 1.5f;
+	AnimationBeginDateTime = FDateTime{};
+	AnimationTotalSeconds = 1;
+	
 	//BeginDay = 0;
 
 	//tickfirst_timer_on = false;
@@ -82,24 +83,6 @@ void ASkyActor::SetupDefaults()
 	//bReplicates = true;
 
 
-}
-
-void ASkyActor::ConstructTimeLines()
-{
-	//Timelines
-	/*const ConstructorHelpers::FObjectFinder<UCurveFloat> Curve_StarsOn(TEXT("CurveFloat'/Game/StarsOnCurve.StarsOnCurve'"));
-	StarsOnTimeline = FTimeline{};
-
-	FOnTimelineFloat progressFunction_one{};
-	progressFunction_one.BindUFunction(this, "StarsOnHelper");
-	StarsOnTimeline.AddInterpFloat(Curve_StarsOn.Object, progressFunction_one, FName{ TEXT("EFFECTFADE") });
-
-	const ConstructorHelpers::FObjectFinder<UCurveFloat> Curve_StarsOff(TEXT("CurveFloat'/Game/StarsOffCurve.StarsOffCurve'"));
-	StarsOffTimeline = FTimeline{};
-
-	FOnTimelineFloat progressFunction_two{};
-	progressFunction_two.BindUFunction(this, "StarsOffHelper");
-	StarsOffTimeline.AddInterpFloat(Curve_StarsOff.Object, progressFunction_two, FName{ TEXT("EFFECTFADE") });*/
 }
 
 void ASkyActor::ConstructSubObjects()
@@ -112,8 +95,6 @@ void ASkyActor::ConstructSubObjects()
 	SunDirectionalLight = CreateDefaultSubobject<UDirectionalLightComponent>(TEXT("DirectionalLight"));
 	SkyAtmosphere = CreateDefaultSubobject<USkyAtmosphereComponent>(TEXT("SkyAtmosphere"));
 	
-	ExponentialHeightFog = CreateDefaultSubobject<UExponentialHeightFogComponent>(TEXT("ExponentialHeightFog"));
-
 	CompassComponent = CreateDefaultSubobject<UCompassComponent>(TEXT("CompassComponent"));
 
 	MoonComponent = CreateDefaultSubobject<UMoonComponent>(TEXT("MoonComponent"));
@@ -126,15 +107,16 @@ void ASkyActor::SetupSubObjects()
 	Scene->CreationMethod = EComponentCreationMethod::Native;
 	Scene->Mobility = EComponentMobility::Type::Static;
 
-	//Exponential Height fog / Only in Editor mode
+	ExponentialHeightFog = CreateDefaultSubobject<UExponentialHeightFogComponent>(TEXT("ExponentialHeightFog"));
+
 	FLinearColor albedofogcolor = FLinearColor(ALBEDO_COLOR, ALBEDO_COLOR, ALBEDO_COLOR, 1.0f);
 
-	ExponentialHeightFog->FogDensity = 0.005f;
+	ExponentialHeightFog->FogDensity = 0.0005f;
+	ExponentialHeightFog->FogMaxOpacity = 0.3f;
 	ExponentialHeightFog->SetVolumetricFog(true);
 	ExponentialHeightFog->VolumetricFogScatteringDistribution = 0.9f;
 	ExponentialHeightFog->VolumetricFogAlbedo = albedofogcolor.ToFColor(false);
 	ExponentialHeightFog->VolumetricFogExtinctionScale = 15.0f;
-	ExponentialHeightFog->SetHiddenInGame(true);
 
 	//Skylight
 	SkyLight->SetMobility(EComponentMobility::Movable);
@@ -169,21 +151,47 @@ void ASkyActor::SetupSubObjects()
 	MoonComponent->SetMobility(EComponentMobility::Movable);
 	MoonComponent->AttachToComponent(Scene, FAttachmentTransformRules::KeepRelativeTransform);
 	SetMoonRules(MoonRules);
+
+
+	
 }
 
-
-
-
-// Called when the game starts or when spawned
 void ASkyActor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameState = ::IsValid(GetWorld()) ?
+		GetWorld()->GetGameState<AAccurateDayNightGameState>()
+		: nullptr;
+
+	if (::IsValid(GameState)) {
+		GameState->OnGameStateTickDelegate.AddDynamic(this, &ASkyActor::OnGameStateTick);
+		GameState->OnDayNightCycleChangeDelegate.AddDynamic(this, &ASkyActor::OnDayNightCycleChange);
+	
+		ECurrentDayNightCicle = GameState->EDayNightCycle;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("GameState is not detected"));
+	}
+
+
 }
 
-// Called every frame
-void ASkyActor::Tick(float DeltaTime)
+void ASkyActor::OnDayNightCycleChange(TEnumAsByte<EEDayNightCicle> EDayNightCicle)
 {
-	Super::Tick(DeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("OnDayNightCicleChange"));
+
+	ECurrentDayNightCicle = EDayNightCicle;
+	if (::IsValid(GameState)) {
+		AnimationTotalSeconds = GameState->DayNightTransitionTime.GetTotalSeconds();
+		AnimationBeginDateTime = GameState->FullDateTime;		
+	}
+
+}
+
+void ASkyActor::OnGameStateTick(FDateTime TickDateTime)
+{
+	Update(TickDateTime);
 }
 
 void ASkyActor::Update(FDateTime CurrentDateTime)
@@ -199,13 +207,16 @@ void ASkyActor::Update(FDateTime CurrentDateTime)
 		UpdateSun(MainRotator);
 		UpdateSky();
 	} else {
-		FRotator MoonRotator = MainRotator;
+		FRotator MoonRotator;
+		MoonRotator.Roll = MainRotator.Roll;
+		MoonRotator.Yaw = MainRotator.Yaw;
 		MoonRotator.Pitch = MainRotator.Pitch - 180;
-		UpdateMoon(MainRotator);
+		UpdateMoon(MoonRotator);
 	}
 	
 	UpdateCompass(FRotator(0, SunPositionRules.NorthOffset + 90, 0).Quaternion());
-	
+
+	SmoothUpdate();
 }
 
 void ASkyActor::GetCurrentRotator(FRotator& CurrentRotator, FSunPositionRules& Rules)
@@ -269,6 +280,59 @@ void ASkyActor::UpdateCompass(const FQuat& CompassQuaternion)
 	}
 }
 
+
+void ASkyActor::SmoothUpdate()
+{
+
+	float Modifier = GetSmoothModifier();
+	float InverseModifier = 1 - Modifier;
+	
+	switch (ECurrentDayNightCicle)
+	{
+	case EEDayNightCicle::BeforeSunsetStart:
+	{
+		OnBeforeSunset(Modifier, InverseModifier);
+		break;
+	}
+	case EEDayNightCicle::SunsetStart:
+	{
+		OnSunset(Modifier, InverseModifier);
+		break;
+	}
+	case EEDayNightCicle::NightStart:
+	{
+		OnNight(Modifier, InverseModifier);
+		break;
+	}
+	case EEDayNightCicle::BeforeSunriseStart:
+	{
+		OnBeforeSunrise(Modifier, InverseModifier);
+		break;
+	}
+	case EEDayNightCicle::SunriseStart:
+	{
+		OnSunrise(Modifier, InverseModifier);
+		break;
+	}
+	case EEDayNightCicle::DayStart:
+	{
+		OnDay(Modifier, InverseModifier);
+		break;
+	}
+	}
+}
+
+float ASkyActor::GetSmoothModifier() const
+{
+	FTimespan TickTimespan = DateTimeTickData->TickDateTime - AnimationBeginDateTime;
+
+	float TickSeconds = TickTimespan.GetTotalSeconds();
+	float Modifier = TickSeconds / AnimationTotalSeconds;
+
+	return FMath::Clamp(Modifier, 0.0f, 1.0f);
+}
+
+
 void ASkyActor::SetMoonRules(FMoonRules MoonRulesInput) {
 	if (::IsValid(MoonComponent))
 	{
@@ -285,15 +349,6 @@ FTimespan ASkyActor::GetSunsetTime()
 FTimespan ASkyActor::GetSunriseTime()
 {
 	return SunPositionRules.Data.SunriseTime;
-}
-
-
-
-void ASkyActor::GetHMSFromSolarTime(float SolarTime_loc, int32& Hour, int32& Minute, int32& Second)
-{
-	Hour = FMath::TruncToInt(SolarTime_loc) % 24;
-	Minute = FMath::TruncToInt((60 * (SolarTime_loc - (float)Hour))) % 60;
-	Second = FMath::TruncToInt((3600 * ((SolarTime_loc - Hour) - (Minute / 60))) + 0.5f) % 60;
 }
 
 bool ASkyActor::IsDST(FDayLightSavingsTime DSTStruct)
@@ -313,66 +368,163 @@ bool ASkyActor::IsDST(FDayLightSavingsTime DSTStruct)
 	}
 }
 
-// DayNight Cycle Change
-
-void ASkyActor::DoOnBeforeSunset()
+// DayNight Cycle Change Animations
+void ASkyActor::OnBeforeSunset(float Modifier, float InverseModifier)
 {
-	UE_LOG(LogTemp, Warning, TEXT("DoOnBeforeSunset"));
+	//UE_LOG(LogTemp, Warning, TEXT("OnBeforeSunset"));
+
+	bIsDay = true;
+
+	ShowFog();
+	SetFogAlpha(Modifier * 0.5);
 
 	if (::IsValid(MoonComponent))
 	{
-		MoonComponent->SetMoonIntensity(MoonRules.MoonLightStrength);
-		MoonComponent->SetMoonEnable(1.0f);
+		MoonComponent->SetStarsBrightness(Modifier);
+		MoonComponent->SetMoonIntensity(MIN_VALUE);
+		MoonComponent->SetMoonEnable(MIN_VALUE);
 	}
 
-	ExponentialHeightFog->SetHiddenInGame(false);
-}
-
-void ASkyActor::DoOnSunset()
-{
-	UE_LOG(LogTemp, Warning, TEXT("DoOnSunset"));
-	
-}
-
-void ASkyActor::DoOnNight()
-{
-	UE_LOG(LogTemp, Warning, TEXT("DoOnNight"));
-
-	bIsDay = false;
-	if (::IsValid(SunDirectionalLight))
-	{
-		SunDirectionalLight->SetIntensity(0.0f);
-	}
-	
-}
-
-void ASkyActor::DoOnBeforeSunrise()
-{
-	UE_LOG(LogTemp, Warning, TEXT("DoOnBeforeSunrise"));
-	
 	if (::IsValid(SunDirectionalLight))
 	{
 		SunDirectionalLight->SetIntensity(10.0f);
 	}
-		
 }
 
-void ASkyActor::DoOnSunrise()
+void ASkyActor::OnSunset(float Modifier, float InverseModifier)
 {
-	UE_LOG(LogTemp, Warning, TEXT("DoOnSunrise"));
-}
 
-void ASkyActor::DoOnDay()
-{
-	UE_LOG(LogTemp, Warning, TEXT("DoOnDay"));
-	bIsDay = true;
+	UE_LOG(LogTemp, Warning, TEXT("OnSunset"));
+	bIsDay = false;
+
+	ShowFog();
+	SetFogAlpha(Modifier * 0.5);
 
 	if (::IsValid(MoonComponent))
 	{
-		MoonComponent->SetMoonIntensity(0.0f);
-		MoonComponent->SetMoonEnable(0.0f);
+		MoonComponent->SetStarsBrightness(MAX_VALUE);
+		MoonComponent->SetMoonIntensity(MIN_VALUE);
+		MoonComponent->SetMoonEnable(MIN_VALUE);		
 	}
 
-	ExponentialHeightFog->SetHiddenInGame(true);
+	if (::IsValid(SunDirectionalLight))
+	{
+		SunDirectionalLight->SetIntensity(10.0f);
+	}
 }
 
+void ASkyActor::OnNight(float Modifier, float InverseModifier)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("OnNight"));
+	bIsDay = false;
+	
+	ShowFog();
+	SetFogAlpha(Modifier * 0.5 + 0.5);
+
+	if (::IsValid(MoonComponent))
+	{
+		MoonComponent->SetStarsBrightness(MAX_VALUE);
+		MoonComponent->SetMoonIntensity(Modifier);
+		MoonComponent->SetMoonEnable(Modifier);
+		
+	}
+
+	if (::IsValid(SunDirectionalLight))
+	{
+		SunDirectionalLight->SetIntensity(InverseModifier * 10.0f);
+	}
+}
+
+void ASkyActor::OnBeforeSunrise(float Modifier, float InverseModifier)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("OnBeforeSunrise"));
+
+	bIsDay = false;
+
+	SetFogAlpha(InverseModifier * 0.5f + 0.5f);
+	ShowFog();
+
+	if (::IsValid(MoonComponent))
+	{
+		MoonComponent->SetStarsBrightness(InverseModifier);
+		MoonComponent->SetMoonIntensity(InverseModifier);
+		MoonComponent->SetMoonEnable(MIN_VALUE);
+	}
+
+	if (::IsValid(SunDirectionalLight))
+	{
+		float SunIntensity = Modifier * 10.0f;
+		SunDirectionalLight->SetIntensity(SunIntensity);
+	}
+
+}
+
+void ASkyActor::OnSunrise(float Modifier, float InverseModifier)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("OnSunrise"));
+
+	bIsDay = true;
+
+	SetFogAlpha(0.5f * InverseModifier);
+	ShowFog();
+
+	if (::IsValid(MoonComponent))
+	{
+		MoonComponent->SetStarsBrightness(MIN_VALUE);
+		MoonComponent->SetMoonIntensity(MIN_VALUE);
+		MoonComponent->SetMoonEnable(MIN_VALUE);
+	}
+
+	if (::IsValid(SunDirectionalLight))
+	{
+		SunDirectionalLight->SetIntensity(10.0f);
+	}
+}
+
+void ASkyActor::OnDay(float Modifier, float InverseModifier)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("OnDay"));
+
+	bIsDay = true;
+
+	SetFogAlpha(MIN_VALUE);
+	HideFog();
+
+	if (::IsValid(MoonComponent))
+	{
+		MoonComponent->SetStarsBrightness(MIN_VALUE);
+		MoonComponent->SetMoonIntensity(MIN_VALUE);
+		MoonComponent->SetMoonEnable(MIN_VALUE);
+	}
+
+	if (::IsValid(SunDirectionalLight))
+	{
+		SunDirectionalLight->SetIntensity(10.0f);
+	}
+}
+
+
+void ASkyActor::ShowFog()
+{
+	if (::IsValid(ExponentialHeightFog))
+	{		
+		ExponentialHeightFog->SetHiddenInGame(false);
+	}
+}
+
+void ASkyActor::HideFog()
+{
+	if (::IsValid(ExponentialHeightFog))
+	{
+		ExponentialHeightFog->SetHiddenInGame(true);
+	}
+}
+
+void ASkyActor::SetFogAlpha(float FogAlpha) {
+
+	if (::IsValid(ExponentialHeightFog))
+	{
+		ExponentialHeightFog->SetFogDensity(0.0005f * FogAlpha);
+		ExponentialHeightFog->SetFogMaxOpacity(0.2f * FogAlpha);
+	}
+}
